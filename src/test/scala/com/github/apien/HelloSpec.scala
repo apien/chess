@@ -1,5 +1,6 @@
-package example
+package com.github.apien
 
+import com.github.chess.apien.Hello
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
