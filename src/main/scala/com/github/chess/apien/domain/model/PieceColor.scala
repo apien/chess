@@ -1,6 +1,6 @@
 package com.github.chess.apien.domain.model
 
-trait PieceColor
+sealed trait PieceColor
 
 object PieceColor {
 

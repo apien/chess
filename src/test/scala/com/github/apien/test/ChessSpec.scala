@@ -1,10 +1,10 @@
 package com.github.apien.test
 
 import com.github.chess.apien.domain.model.{Column, Row}
+import org.scalatest.flatspec
+import org.scalatest.matchers.should
 
-import scala.language.implicitConversions
-
-trait ChessSpec {
+trait ChessSpec extends flatspec.AnyFlatSpec with should.Matchers {
 
   implicit def intToRow(value: Int): Row = Row(value)
 

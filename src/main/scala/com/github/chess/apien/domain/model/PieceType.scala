@@ -7,7 +7,7 @@ sealed trait PieceType
 
 object PieceType {
 
-  case object Pawn extends PieceType
+  case class Pawn() extends PieceType
 
   case object Knight extends PieceType
 

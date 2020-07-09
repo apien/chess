@@ -7,7 +7,12 @@ package com.github.chess.apien.domain.model
  *
  * @param value Row value.
  */
-case class Row(value: Int) extends AnyVal
+case class Row(value: Int) extends AnyVal {
+
+  def >(other: Row): Boolean = value > other.value
+
+  def <=(other: Row): Boolean = value <= other.value
+}
 
 object Row {
   private val minRow = 0

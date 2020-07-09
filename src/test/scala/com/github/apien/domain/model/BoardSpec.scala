@@ -4,10 +4,8 @@ import com.github.apien.test.ChessSpec
 import com.github.chess.apien.domain.model
 import com.github.chess.apien.domain.model.PieceType._
 import com.github.chess.apien.domain.model.{Board, Coordinate, Piece, PieceColor}
-import org.scalatest.flatspec
-import org.scalatest.matchers.should
 
-class BoardSpec extends flatspec.AnyFlatSpec with should.Matchers with ChessSpec {
+class BoardSpec extends ChessSpec {
 
   "Board initial state of the board" should "contains 32 pieces at the beginning" in {
     Board.initial should have size 32
@@ -25,23 +23,23 @@ class BoardSpec extends flatspec.AnyFlatSpec with should.Matchers with ChessSpec
       model.Coordinate(6, 0) -> blackPiece(Knight),
       model.Coordinate(7, 0) -> blackPiece(Rook),
       //Front row of black pieces
-      model.Coordinate(0, 1) -> blackPiece(Pawn),
-      model.Coordinate(1, 1) -> blackPiece(Pawn),
-      model.Coordinate(2, 1) -> blackPiece(Pawn),
-      model.Coordinate(3, 1) -> blackPiece(Pawn),
-      model.Coordinate(4, 1) -> blackPiece(Pawn),
-      model.Coordinate(5, 1) -> blackPiece(Pawn),
-      model.Coordinate(6, 1) -> blackPiece(Pawn),
-      model.Coordinate(7, 1) -> blackPiece(Pawn),
+      model.Coordinate(0, 1) -> blackPiece(Pawn()),
+      model.Coordinate(1, 1) -> blackPiece(Pawn()),
+      model.Coordinate(2, 1) -> blackPiece(Pawn()),
+      model.Coordinate(3, 1) -> blackPiece(Pawn()),
+      model.Coordinate(4, 1) -> blackPiece(Pawn()),
+      model.Coordinate(5, 1) -> blackPiece(Pawn()),
+      model.Coordinate(6, 1) -> blackPiece(Pawn()),
+      model.Coordinate(7, 1) -> blackPiece(Pawn()),
       //Front row of white pieces
-      model.Coordinate(0, 6) -> whitePiece(Pawn),
-      model.Coordinate(1, 6) -> whitePiece(Pawn),
-      model.Coordinate(2, 6) -> whitePiece(Pawn),
-      model.Coordinate(3, 6) -> whitePiece(Pawn),
-      model.Coordinate(4, 6) -> whitePiece(Pawn),
-      model.Coordinate(5, 6) -> whitePiece(Pawn),
-      model.Coordinate(6, 6) -> whitePiece(Pawn),
-      model.Coordinate(7, 6) -> whitePiece(Pawn),
+      model.Coordinate(0, 6) -> whitePiece(Pawn()),
+      model.Coordinate(1, 6) -> whitePiece(Pawn()),
+      model.Coordinate(2, 6) -> whitePiece(Pawn()),
+      model.Coordinate(3, 6) -> whitePiece(Pawn()),
+      model.Coordinate(4, 6) -> whitePiece(Pawn()),
+      model.Coordinate(5, 6) -> whitePiece(Pawn()),
+      model.Coordinate(6, 6) -> whitePiece(Pawn()),
+      model.Coordinate(7, 6) -> whitePiece(Pawn()),
       //Second row of white pieces
       model.Coordinate(0, 7) -> whitePiece(Rook),
       model.Coordinate(1, 7) -> whitePiece(Knight),
