@@ -11,7 +11,7 @@ object PieceType {
 
   case object Knight extends PieceType
 
-  case object Bishop extends PieceType
+  case class Bishop() extends PieceType
 
   case class Rook() extends PieceType
 

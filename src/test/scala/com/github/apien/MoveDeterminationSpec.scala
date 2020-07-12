@@ -73,4 +73,58 @@ class MoveDeterminationSpec extends ChessSpec {
         Coordinate(3, 5) -> MoveType.Moved
       )
   }
+
+  "Determine" should "should restrict boundaries of the board" in {
+    implicit val board = Board(
+      Map(
+        Coordinate(3, 4) -> Piece(Pawn(), White)
+      )
+    )
+
+    MoveDetermination.diagonally(Coordinate(3, 4), White) shouldBe
+      List(
+        Coordinate(2, 3) -> MoveType.Moved,
+        Coordinate(1, 2) -> MoveType.Moved,
+        Coordinate(0, 1) -> MoveType.Moved,
+        Coordinate(4, 5) -> MoveType.Moved,
+        Coordinate(5, 6) -> MoveType.Moved,
+        Coordinate(6, 7) -> MoveType.Moved,
+        Coordinate(4, 3) -> MoveType.Moved,
+        Coordinate(5, 2) -> MoveType.Moved,
+        Coordinate(6, 1) -> MoveType.Moved,
+        Coordinate(7, 0) -> MoveType.Moved,
+        Coordinate(2, 5) -> MoveType.Moved,
+        Coordinate(1, 6) -> MoveType.Moved,
+        Coordinate(0, 7) -> MoveType.Moved
+      )
+  }
+
+  it should "restrict opponents pieces on the walk" in {
+    implicit val board = Board(
+      Map(
+        Coordinate(3, 4) -> Piece(Pawn(), White),
+        Coordinate(1, 2) -> Piece(Pawn(), Black),
+        Coordinate(4, 3) -> Piece(Pawn(), Black),
+        Coordinate(0, 7) -> Piece(Pawn(), Black),
+        Coordinate(5, 6) -> Piece(Pawn(), Black)
+      )
+    )
+
+    MoveDetermination.diagonally(Coordinate(3, 4), White) shouldBe
+      List(
+        Coordinate(2, 3) -> MoveType.Moved,
+        Coordinate(1, 2) -> MoveType.Captured(Pawn()),
+        Coordinate(4, 5) -> MoveType.Moved,
+        Coordinate(5, 6) -> MoveType.Captured(Pawn()),
+        Coordinate(4, 3) -> MoveType.Captured(Pawn()),
+        Coordinate(2, 5) -> MoveType.Moved,
+        Coordinate(1, 6) -> MoveType.Moved,
+        Coordinate(0, 7) -> MoveType.Captured(Pawn())
+      )
+  }
+
+  it should "restrict own pieces on the path" in {
+    //TODO implement it!
+    ignore
+  }
 }

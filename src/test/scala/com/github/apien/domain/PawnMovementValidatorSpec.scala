@@ -30,7 +30,7 @@ class PawnMovementValidatorSpec extends ChessSpec {
     val myBoard = Board(
       Map(
         Coordinate(0, 1) -> Piece(Pawn(), PieceColor.Black),
-        Coordinate(0, 2) -> Piece(PieceType.Bishop, PieceColor.White)
+        Coordinate(0, 2) -> Piece(PieceType.Bishop(), PieceColor.White)
       )
     )
 
@@ -45,7 +45,7 @@ class PawnMovementValidatorSpec extends ChessSpec {
     val myBoard = Board(
       Map(
         Coordinate(0, 1) -> Piece(Pawn(), PieceColor.Black),
-        Coordinate(0, 2) -> Piece(PieceType.Bishop, PieceColor.White)
+        Coordinate(0, 2) -> Piece(PieceType.Bishop(), PieceColor.White)
       )
     )
 
@@ -98,7 +98,7 @@ class PawnMovementValidatorSpec extends ChessSpec {
     val myBoard = Board(
       Map(
         Coordinate(4, 1) -> Piece(Pawn(), PieceColor.Black),
-        Coordinate(3, 2) -> Piece(PieceType.Bishop, PieceColor.White)
+        Coordinate(3, 2) -> Piece(PieceType.Bishop(), PieceColor.White)
       )
     )
 
@@ -113,7 +113,7 @@ class PawnMovementValidatorSpec extends ChessSpec {
     val myBoard = Board(
       Map(
         Coordinate(4, 1) -> Piece(Pawn(), PieceColor.Black),
-        Coordinate(5, 2) -> Piece(PieceType.Bishop, PieceColor.White)
+        Coordinate(5, 2) -> Piece(PieceType.Bishop(), PieceColor.White)
       )
     )
 

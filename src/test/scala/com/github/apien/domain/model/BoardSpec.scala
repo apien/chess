@@ -16,10 +16,10 @@ class BoardSpec extends ChessSpec {
       //Second row of black pieces(0, 0) -> blackPiece(Rook()),
       model.Coordinate(0, 0) -> blackPiece(Rook()),
       model.Coordinate(1, 0) -> blackPiece(Knight),
-      model.Coordinate(2, 0) -> blackPiece(Bishop),
+      model.Coordinate(2, 0) -> blackPiece(Bishop()),
       model.Coordinate(3, 0) -> blackPiece(Queen),
       model.Coordinate(4, 0) -> blackPiece(King),
-      model.Coordinate(5, 0) -> blackPiece(Bishop),
+      model.Coordinate(5, 0) -> blackPiece(Bishop()),
       model.Coordinate(6, 0) -> blackPiece(Knight),
       model.Coordinate(7, 0) -> blackPiece(Rook()),
       //Front row of black pieces
@@ -43,10 +43,10 @@ class BoardSpec extends ChessSpec {
       //Second row of white pieces
       model.Coordinate(0, 7) -> whitePiece(Rook()),
       model.Coordinate(1, 7) -> whitePiece(Knight),
-      model.Coordinate(2, 7) -> whitePiece(Bishop),
+      model.Coordinate(2, 7) -> whitePiece(Bishop()),
       model.Coordinate(3, 7) -> whitePiece(Queen),
       model.Coordinate(4, 7) -> whitePiece(King),
-      model.Coordinate(5, 7) -> whitePiece(Bishop),
+      model.Coordinate(5, 7) -> whitePiece(Bishop()),
       model.Coordinate(6, 7) -> whitePiece(Knight),
       model.Coordinate(7, 7) -> whitePiece(Rook())
     )
