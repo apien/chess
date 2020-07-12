@@ -35,14 +35,14 @@ object Board {
     val pieceFactory = Piece(_, color)
     val coordinateFactory = Coordinate(_, row)
     Map(
-      coordinateFactory(Column(0)) -> pieceFactory(PieceType.Rook),
+      coordinateFactory(Column(0)) -> pieceFactory(PieceType.Rook()),
       coordinateFactory(Column(1)) -> pieceFactory(PieceType.Knight),
       coordinateFactory(Column(2)) -> pieceFactory(PieceType.Bishop),
       coordinateFactory(Column(3)) -> pieceFactory(PieceType.Queen),
       coordinateFactory(Column(4)) -> pieceFactory(PieceType.King),
       coordinateFactory(Column(5)) -> pieceFactory(PieceType.Bishop),
       coordinateFactory(Column(6)) -> pieceFactory(PieceType.Knight),
-      coordinateFactory(Column(7)) -> pieceFactory(PieceType.Rook)
+      coordinateFactory(Column(7)) -> pieceFactory(PieceType.Rook())
     )
   }
 }

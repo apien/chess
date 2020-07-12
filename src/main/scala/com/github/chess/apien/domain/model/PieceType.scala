@@ -1,8 +1,8 @@
 package com.github.chess.apien.domain.model
 
 /**
- * Type pieces on chessboard,
- */
+  * Type pieces on chessboard,
+  */
 sealed trait PieceType
 
 object PieceType {
@@ -13,7 +13,7 @@ object PieceType {
 
   case object Bishop extends PieceType
 
-  case object Rook extends PieceType
+  case class Rook() extends PieceType
 
   case object Queen extends PieceType
 
