@@ -15,7 +15,7 @@ object PieceType {
 
   case class Rook() extends PieceType
 
-  case object Queen extends PieceType
+  case class Queen() extends PieceType
 
   case object King extends PieceType
 
