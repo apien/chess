@@ -2,7 +2,7 @@ package com.github.apien.domain.determinant
 
 import com.github.apien.test.ChessSpec
 import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
-import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.{Captured, Moved}
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.{Capture, Vacant}
 import com.github.chess.apien.domain.determinant.PawnDeterminant
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.Pawn
@@ -20,8 +20,8 @@ class PawnDeterminantSpec extends ChessSpec {
     )
 
     moveDetermination.validate(Coordinate(5, 6), White) shouldBe Set(
-      Coordinate(5, 5) -> Moved,
-      Coordinate(5, 4) -> Moved
+      Coordinate(5, 5) -> Vacant,
+      Coordinate(5, 4) -> Vacant
     )
   }
 
@@ -32,7 +32,7 @@ class PawnDeterminantSpec extends ChessSpec {
       )
     )
 
-    moveDetermination.validate(Coordinate(5, 5), White) shouldBe Set(Coordinate(5, 4) -> Moved)
+    moveDetermination.validate(Coordinate(5, 5), White) shouldBe Set(Coordinate(5, 4) -> Vacant)
   }
 
   it should "allow to move 2 boxes forward as first move for a black pawn" in {
@@ -42,8 +42,8 @@ class PawnDeterminantSpec extends ChessSpec {
       )
     )
     moveDetermination.validate(Coordinate(4, 1), Black) shouldBe Set(
-      Coordinate(4, 2) -> Moved,
-      Coordinate(4, 3) -> Moved
+      Coordinate(4, 2) -> Vacant,
+      Coordinate(4, 3) -> Vacant
     )
   }
 
@@ -54,7 +54,7 @@ class PawnDeterminantSpec extends ChessSpec {
       )
     )
     moveDetermination.validate(Coordinate(4, 2), Black) shouldBe Set(
-      Coordinate(4, 3) -> Moved
+      Coordinate(4, 3) -> Vacant
     )
   }
 
@@ -87,10 +87,10 @@ class PawnDeterminantSpec extends ChessSpec {
       )
     )
     moveDetermination.validate(Coordinate(4, 1), Black) shouldBe Set(
-      Coordinate(4, 2) -> MoveType.Moved,
-      Coordinate(4, 3) -> MoveType.Moved,
-      Coordinate(3, 2) -> MoveType.Captured(Pawn()),
-      Coordinate(5, 2) -> MoveType.Captured(Pawn())
+      Coordinate(4, 2) -> MoveType.Vacant,
+      Coordinate(4, 3) -> MoveType.Vacant,
+      Coordinate(3, 2) -> MoveType.Capture(Pawn()),
+      Coordinate(5, 2) -> MoveType.Capture(Pawn())
     )
   }
 
@@ -104,10 +104,10 @@ class PawnDeterminantSpec extends ChessSpec {
     )
 
     moveDetermination.validate(Coordinate(5, 6), White) shouldBe Set(
-      Coordinate(5, 5) -> Moved,
-      Coordinate(5, 4) -> Moved,
-      Coordinate(4, 5) -> Captured(Pawn()),
-      Coordinate(6, 5) -> Captured(Pawn())
+      Coordinate(5, 5) -> Vacant,
+      Coordinate(5, 4) -> Vacant,
+      Coordinate(4, 5) -> Capture(Pawn()),
+      Coordinate(6, 5) -> Capture(Pawn())
     )
   }
 }

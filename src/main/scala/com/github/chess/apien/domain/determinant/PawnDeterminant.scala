@@ -2,7 +2,7 @@ package com.github.chess.apien.domain.determinant
 
 import cats.syntax.option._
 import com.github.chess.apien.domain.Diagonal
-import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.Captured
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.Capture
 import com.github.chess.apien.domain.determinant.MoveDeterminant.{AvailableMove, MoveType, getMoveTrack}
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.Pawn
@@ -15,7 +15,7 @@ class PawnDeterminant extends MoveDeterminant[Pawn] {
       .vertically(source, color, verticalMoveLimit.some)
       .filter { case (cord, _) => isMovingForward(color, source, cord) }
       .filter {
-        case (_, MoveType.Captured(_)) => false //TODO A Pawn piece as the only piece can not capture other pieces in typical move
+        case (_, MoveType.Capture(_)) => false //TODO A Pawn piece as the only piece can not capture other pieces in typical move
         case _ => true
       }
 
@@ -25,7 +25,7 @@ class PawnDeterminant extends MoveDeterminant[Pawn] {
           getMoveTrack(Diagonal.downLeft(source, 1.some), color) ++
             getMoveTrack(Diagonal.downRight(source, 1.some), color)
         cords.filter {
-          case (_, Captured(_)) => true
+          case (_, Capture(_)) => true
           case _ => false
         }
       case White =>
@@ -33,7 +33,7 @@ class PawnDeterminant extends MoveDeterminant[Pawn] {
           getMoveTrack(Diagonal.topRight(source, 1.some), color)
         cords
           .filter {
-            case (_, Captured(_)) => true
+            case (_, Capture(_)) => true
             case _ => false
           }
     }

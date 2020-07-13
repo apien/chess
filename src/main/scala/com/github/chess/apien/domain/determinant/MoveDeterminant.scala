@@ -79,8 +79,8 @@ object MoveDeterminant {
     val availableToMove = takeFreeWalk(potentialPath)
     val firstOpponent = findFirstOpponentOneTheWalk(potentialPath, color)
 
-    availableToMove.map(cord => cord -> MoveType.Moved) ++
-      firstOpponent.map { case (cord, piece) => cord -> MoveType.Captured(piece.kind) }
+    availableToMove.map(cord => cord -> MoveType.Vacant) ++
+      firstOpponent.map { case (cord, piece) => cord -> MoveType.Capture(piece.kind) }
   }
 
   def diagonally(source: Coordinate, color: PieceColor, limit: Option[Int] = None)(implicit board: Board): List[AvailableMove] = {
@@ -108,8 +108,18 @@ object MoveDeterminant {
   sealed trait MoveType
 
   object MoveType {
-    case object Moved extends MoveType
-    case class Captured(pieceType: PieceType) extends MoveType
+
+    /**
+     * Square is vacant and the piece can to move to the square.
+     */
+    case object Vacant extends MoveType
+
+    /**
+     * Square is occupied by an enemy (other color) piece and you can capture it.
+     *
+     * @param pieceType Piece type which is threaten by capture.
+     */
+    case class Capture(pieceType: PieceType) extends MoveType
 
   }
 

@@ -2,7 +2,7 @@ package com.github.apien.domain.determinant
 
 import com.github.apien.test.ChessSpec
 import com.github.chess.apien.domain.determinant.KnightDeterminant
-import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.{Captured, Moved}
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.{Capture, Vacant}
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.{Knight, Pawn, Rook}
 import com.github.chess.apien.domain.model.{Coordinate, _}
@@ -17,14 +17,14 @@ class KnightDeterminantSpec extends ChessSpec {
       )
     )
     moveDetermination.validate(Coordinate(3, 4), White) shouldBe Set(
-      Coordinate(1, 3) -> Moved,
-      Coordinate(1, 5) -> Moved,
-      Coordinate(5, 5) -> Moved,
-      Coordinate(2, 2) -> Moved,
-      Coordinate(2, 6) -> Moved,
-      Coordinate(4, 6) -> Moved,
-      Coordinate(4, 2) -> Moved,
-      Coordinate(5, 3) -> Moved
+      Coordinate(1, 3) -> Vacant,
+      Coordinate(1, 5) -> Vacant,
+      Coordinate(5, 5) -> Vacant,
+      Coordinate(2, 2) -> Vacant,
+      Coordinate(2, 6) -> Vacant,
+      Coordinate(4, 6) -> Vacant,
+      Coordinate(4, 2) -> Vacant,
+      Coordinate(5, 3) -> Vacant
     )
   }
 
@@ -47,14 +47,14 @@ class KnightDeterminantSpec extends ChessSpec {
     )
 
     moveDetermination.validate(Coordinate(3, 4), White) shouldBe Set(
-      Coordinate(1, 3) -> Moved,
-      Coordinate(1, 5) -> Moved,
-      Coordinate(5, 5) -> Moved,
-      Coordinate(2, 2) -> Moved,
-      Coordinate(2, 6) -> Moved,
-      Coordinate(4, 6) -> Moved,
-      Coordinate(4, 2) -> Moved,
-      Coordinate(5, 3) -> Moved
+      Coordinate(1, 3) -> Vacant,
+      Coordinate(1, 5) -> Vacant,
+      Coordinate(5, 5) -> Vacant,
+      Coordinate(2, 2) -> Vacant,
+      Coordinate(2, 6) -> Vacant,
+      Coordinate(4, 6) -> Vacant,
+      Coordinate(4, 2) -> Vacant,
+      Coordinate(5, 3) -> Vacant
     )
   }
 
@@ -68,14 +68,14 @@ class KnightDeterminantSpec extends ChessSpec {
         )
       )
       moveDetermination.validate(Coordinate(3, 4), White) shouldBe Set(
-        Coordinate(1, 3) -> Moved,
-        Coordinate(1, 5) -> Moved,
-        Coordinate(5, 5) -> Moved,
-        Coordinate(2, 2) -> Moved,
-        Coordinate(2, 6) -> Captured(Rook()),
-        Coordinate(4, 6) -> Moved,
-        Coordinate(4, 2) -> Captured(Pawn()),
-        Coordinate(5, 3) -> Moved
+        Coordinate(1, 3) -> Vacant,
+        Coordinate(1, 5) -> Vacant,
+        Coordinate(5, 5) -> Vacant,
+        Coordinate(2, 2) -> Vacant,
+        Coordinate(2, 6) -> Capture(Rook()),
+        Coordinate(4, 6) -> Vacant,
+        Coordinate(4, 2) -> Capture(Pawn()),
+        Coordinate(5, 3) -> Vacant
       )
     }
   }
@@ -90,12 +90,12 @@ class KnightDeterminantSpec extends ChessSpec {
         )
       )
       moveDetermination.validate(Coordinate(3, 4), White) shouldBe Set(
-        Coordinate(1, 3) -> Moved,
-        Coordinate(1, 5) -> Moved,
-        Coordinate(5, 5) -> Moved,
-        Coordinate(2, 2) -> Moved,
-        Coordinate(4, 6) -> Moved,
-        Coordinate(5, 3) -> Moved
+        Coordinate(1, 3) -> Vacant,
+        Coordinate(1, 5) -> Vacant,
+        Coordinate(5, 5) -> Vacant,
+        Coordinate(2, 2) -> Vacant,
+        Coordinate(4, 6) -> Vacant,
+        Coordinate(5, 3) -> Vacant
       )
     }
   }
@@ -107,10 +107,10 @@ class KnightDeterminantSpec extends ChessSpec {
       )
     )
     moveDetermination.validate(Coordinate(1, 1), White) shouldBe Set(
-      Coordinate(3, 0) -> Moved,
-      Coordinate(3, 2) -> Moved,
-      Coordinate(2, 3) -> Moved,
-      Coordinate(0, 3) -> Moved
+      Coordinate(3, 0) -> Vacant,
+      Coordinate(3, 2) -> Vacant,
+      Coordinate(2, 3) -> Vacant,
+      Coordinate(0, 3) -> Vacant
     )
   }
 

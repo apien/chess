@@ -16,7 +16,7 @@ class KnightDeterminant extends MoveDeterminant[Knight] {
       .map(cord => cord -> board.squares.get(cord))
       .filter { case (_, piece) => piece.fold(true)(_.color != color) }
       .map {
-        case (cord, pieceOp) => cord -> pieceOp.fold[MoveType](MoveType.Moved)(piece => MoveType.Captured(piece.kind))
+        case (cord, pieceOp) => cord -> pieceOp.fold[MoveType](MoveType.Vacant)(piece => MoveType.Capture(piece.kind))
       }
 
   }

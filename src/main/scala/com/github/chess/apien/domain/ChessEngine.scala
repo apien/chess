@@ -36,8 +36,8 @@ class ChessEngine {
       .getMoves(piece.kind, move.source, piece.color, board)
       .find { case (coordinate, _) => coordinate == move.destination }
       .fold[Either[MoveError, MoveSuccess]](MoveError.IllegalMove.asLeft) {
-        case (_, MoveType.Moved) => MoveSuccess.Moved.asRight
-        case (_, MoveType.Captured(_)) => MoveSuccess.Captured.asRight
+        case (_, MoveType.Vacant) => MoveSuccess.Moved.asRight
+        case (_, MoveType.Capture(_)) => MoveSuccess.Captured.asRight
       }
   }
 

@@ -19,11 +19,11 @@ class MoveDeterminantSpec extends ChessSpec {
     )
     MoveDeterminant.horizontally(Coordinate(3, 4), Black) shouldBe
       List(
-        Coordinate(2, 4) -> MoveType.Moved,
-        Coordinate(1, 4) -> MoveType.Captured(PieceType.Pawn()),
-        Coordinate(4, 4) -> MoveType.Moved,
-        Coordinate(5, 4) -> MoveType.Moved,
-        Coordinate(6, 4) -> MoveType.Moved
+        Coordinate(2, 4) -> MoveType.Vacant,
+        Coordinate(1, 4) -> MoveType.Capture(PieceType.Pawn()),
+        Coordinate(4, 4) -> MoveType.Vacant,
+        Coordinate(5, 4) -> MoveType.Vacant,
+        Coordinate(6, 4) -> MoveType.Vacant
       )
   }
 
@@ -36,8 +36,8 @@ class MoveDeterminantSpec extends ChessSpec {
     )
     MoveDeterminant.horizontally(Coordinate(3, 4), Black, 1.some) shouldBe
       List(
-        Coordinate(2, 4) -> MoveType.Moved,
-        Coordinate(4, 4) -> MoveType.Moved
+        Coordinate(2, 4) -> MoveType.Vacant,
+        Coordinate(4, 4) -> MoveType.Vacant
       )
   }
 
@@ -51,11 +51,11 @@ class MoveDeterminantSpec extends ChessSpec {
 
     MoveDeterminant.vertically(Coordinate(3, 4), White) shouldBe
       List(
-        Coordinate(3, 3) -> MoveType.Moved,
-        Coordinate(3, 2) -> MoveType.Moved,
-        Coordinate(3, 1) -> MoveType.Captured(PieceType.Pawn()),
-        Coordinate(3, 5) -> MoveType.Moved,
-        Coordinate(3, 6) -> MoveType.Moved
+        Coordinate(3, 3) -> MoveType.Vacant,
+        Coordinate(3, 2) -> MoveType.Vacant,
+        Coordinate(3, 1) -> MoveType.Capture(PieceType.Pawn()),
+        Coordinate(3, 5) -> MoveType.Vacant,
+        Coordinate(3, 6) -> MoveType.Vacant
       )
 
   }
@@ -70,8 +70,8 @@ class MoveDeterminantSpec extends ChessSpec {
 
     MoveDeterminant.vertically(Coordinate(3, 4), White, 1.some) shouldBe
       List(
-        Coordinate(3, 3) -> MoveType.Moved,
-        Coordinate(3, 5) -> MoveType.Moved
+        Coordinate(3, 3) -> MoveType.Vacant,
+        Coordinate(3, 5) -> MoveType.Vacant
       )
   }
 
@@ -84,19 +84,19 @@ class MoveDeterminantSpec extends ChessSpec {
 
     MoveDeterminant.diagonally(Coordinate(3, 4), White) shouldBe
       List(
-        Coordinate(2, 3) -> MoveType.Moved,
-        Coordinate(1, 2) -> MoveType.Moved,
-        Coordinate(0, 1) -> MoveType.Moved,
-        Coordinate(4, 5) -> MoveType.Moved,
-        Coordinate(5, 6) -> MoveType.Moved,
-        Coordinate(6, 7) -> MoveType.Moved,
-        Coordinate(4, 3) -> MoveType.Moved,
-        Coordinate(5, 2) -> MoveType.Moved,
-        Coordinate(6, 1) -> MoveType.Moved,
-        Coordinate(7, 0) -> MoveType.Moved,
-        Coordinate(2, 5) -> MoveType.Moved,
-        Coordinate(1, 6) -> MoveType.Moved,
-        Coordinate(0, 7) -> MoveType.Moved
+        Coordinate(2, 3) -> MoveType.Vacant,
+        Coordinate(1, 2) -> MoveType.Vacant,
+        Coordinate(0, 1) -> MoveType.Vacant,
+        Coordinate(4, 5) -> MoveType.Vacant,
+        Coordinate(5, 6) -> MoveType.Vacant,
+        Coordinate(6, 7) -> MoveType.Vacant,
+        Coordinate(4, 3) -> MoveType.Vacant,
+        Coordinate(5, 2) -> MoveType.Vacant,
+        Coordinate(6, 1) -> MoveType.Vacant,
+        Coordinate(7, 0) -> MoveType.Vacant,
+        Coordinate(2, 5) -> MoveType.Vacant,
+        Coordinate(1, 6) -> MoveType.Vacant,
+        Coordinate(0, 7) -> MoveType.Vacant
       )
   }
 
@@ -113,14 +113,14 @@ class MoveDeterminantSpec extends ChessSpec {
 
     MoveDeterminant.diagonally(Coordinate(3, 4), White) shouldBe
       List(
-        Coordinate(2, 3) -> MoveType.Moved,
-        Coordinate(1, 2) -> MoveType.Captured(Pawn()),
-        Coordinate(4, 5) -> MoveType.Moved,
-        Coordinate(5, 6) -> MoveType.Captured(Pawn()),
-        Coordinate(4, 3) -> MoveType.Captured(Pawn()),
-        Coordinate(2, 5) -> MoveType.Moved,
-        Coordinate(1, 6) -> MoveType.Moved,
-        Coordinate(0, 7) -> MoveType.Captured(Pawn())
+        Coordinate(2, 3) -> MoveType.Vacant,
+        Coordinate(1, 2) -> MoveType.Capture(Pawn()),
+        Coordinate(4, 5) -> MoveType.Vacant,
+        Coordinate(5, 6) -> MoveType.Capture(Pawn()),
+        Coordinate(4, 3) -> MoveType.Capture(Pawn()),
+        Coordinate(2, 5) -> MoveType.Vacant,
+        Coordinate(1, 6) -> MoveType.Vacant,
+        Coordinate(0, 7) -> MoveType.Capture(Pawn())
       )
   }
 
@@ -133,10 +133,10 @@ class MoveDeterminantSpec extends ChessSpec {
 
     MoveDeterminant.diagonally(Coordinate(3, 4), White, 1.some) shouldBe
       List(
-        Coordinate(2, 3) -> MoveType.Moved,
-        Coordinate(4, 5) -> MoveType.Moved,
-        Coordinate(4, 3) -> MoveType.Moved,
-        Coordinate(2, 5) -> MoveType.Moved
+        Coordinate(2, 3) -> MoveType.Vacant,
+        Coordinate(4, 5) -> MoveType.Vacant,
+        Coordinate(4, 3) -> MoveType.Vacant,
+        Coordinate(2, 5) -> MoveType.Vacant
       )
   }
 
