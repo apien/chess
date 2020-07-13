@@ -1,16 +1,16 @@
-package com.github.apien.domain
+package com.github.apien.domain.determinant
 
 import com.github.apien.test.ChessSpec
-import com.github.chess.apien.domain.MoveDetermination.MoveType
-import com.github.chess.apien.domain.MoveDetermination.MoveType.{Captured, Moved}
-import com.github.chess.apien.domain.PawnMovementDetermination
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.{Captured, Moved}
+import com.github.chess.apien.domain.determinant.PawnDeterminant
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.Pawn
 import com.github.chess.apien.domain.model.{Board, Coordinate, Piece}
 
-class PawnMovementDeterminationSpec extends ChessSpec {
+class PawnDeterminantSpec extends ChessSpec {
 
-  private val moveDetermination = new PawnMovementDetermination()
+  private val moveDetermination = new PawnDeterminant()
 
   "PawnMovementValidation" should "allow to move 2 boxes forward as first move for a white pawn" in {
     implicit val baord = new Board(

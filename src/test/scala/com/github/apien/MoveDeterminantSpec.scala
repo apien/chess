@@ -2,12 +2,13 @@ package com.github.apien
 
 import cats.syntax.option._
 import com.github.apien.test.ChessSpec
-import com.github.chess.apien.domain.MoveDetermination
-import com.github.chess.apien.domain.MoveDetermination.MoveType
+import com.github.chess.apien.domain.determinant.MoveDeterminant
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.Pawn
 import com.github.chess.apien.domain.model.{Board, Coordinate, Piece, PieceType}
-class MoveDeterminationSpec extends ChessSpec {
+
+class MoveDeterminantSpec extends ChessSpec {
 
   "Determine available moves horizontally" should "" in {
     implicit val board = Board(
@@ -16,7 +17,7 @@ class MoveDeterminationSpec extends ChessSpec {
         Coordinate(7, 4) -> Piece(Pawn(), Black)
       )
     )
-    MoveDetermination.horizontally(Coordinate(3, 4), Black) shouldBe
+    MoveDeterminant.horizontally(Coordinate(3, 4), Black) shouldBe
       List(
         Coordinate(2, 4) -> MoveType.Moved,
         Coordinate(1, 4) -> MoveType.Captured(PieceType.Pawn()),
@@ -33,7 +34,7 @@ class MoveDeterminationSpec extends ChessSpec {
         Coordinate(7, 4) -> Piece(Pawn(), Black)
       )
     )
-    MoveDetermination.horizontally(Coordinate(3, 4), Black, 1.some) shouldBe
+    MoveDeterminant.horizontally(Coordinate(3, 4), Black, 1.some) shouldBe
       List(
         Coordinate(2, 4) -> MoveType.Moved,
         Coordinate(4, 4) -> MoveType.Moved
@@ -48,7 +49,7 @@ class MoveDeterminationSpec extends ChessSpec {
       )
     )
 
-    MoveDetermination.vertically(Coordinate(3, 4), White) shouldBe
+    MoveDeterminant.vertically(Coordinate(3, 4), White) shouldBe
       List(
         Coordinate(3, 3) -> MoveType.Moved,
         Coordinate(3, 2) -> MoveType.Moved,
@@ -67,7 +68,7 @@ class MoveDeterminationSpec extends ChessSpec {
       )
     )
 
-    MoveDetermination.vertically(Coordinate(3, 4), White, 1.some) shouldBe
+    MoveDeterminant.vertically(Coordinate(3, 4), White, 1.some) shouldBe
       List(
         Coordinate(3, 3) -> MoveType.Moved,
         Coordinate(3, 5) -> MoveType.Moved
@@ -81,7 +82,7 @@ class MoveDeterminationSpec extends ChessSpec {
       )
     )
 
-    MoveDetermination.diagonally(Coordinate(3, 4), White) shouldBe
+    MoveDeterminant.diagonally(Coordinate(3, 4), White) shouldBe
       List(
         Coordinate(2, 3) -> MoveType.Moved,
         Coordinate(1, 2) -> MoveType.Moved,
@@ -110,7 +111,7 @@ class MoveDeterminationSpec extends ChessSpec {
       )
     )
 
-    MoveDetermination.diagonally(Coordinate(3, 4), White) shouldBe
+    MoveDeterminant.diagonally(Coordinate(3, 4), White) shouldBe
       List(
         Coordinate(2, 3) -> MoveType.Moved,
         Coordinate(1, 2) -> MoveType.Captured(Pawn()),
@@ -130,7 +131,7 @@ class MoveDeterminationSpec extends ChessSpec {
       )
     )
 
-    MoveDetermination.diagonally(Coordinate(3, 4), White, 1.some) shouldBe
+    MoveDeterminant.diagonally(Coordinate(3, 4), White, 1.some) shouldBe
       List(
         Coordinate(2, 3) -> MoveType.Moved,
         Coordinate(4, 5) -> MoveType.Moved,

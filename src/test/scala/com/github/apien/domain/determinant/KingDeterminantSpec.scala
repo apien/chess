@@ -1,15 +1,15 @@
-package com.github.apien.domain
+package com.github.apien.domain.determinant
 
 import com.github.apien.test.ChessSpec
-import com.github.chess.apien.domain.KingMoveDetermination
-import com.github.chess.apien.domain.MoveDetermination.MoveType.{Captured, Moved}
+import com.github.chess.apien.domain.determinant.KingDeterminant
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.{Captured, Moved}
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.{King, Pawn}
 import com.github.chess.apien.domain.model.{Board, Coordinate, Piece}
 
-class KingMovementDeterminationSpec extends ChessSpec {
+class KingDeterminantSpec extends ChessSpec {
 
-  private val determination = new KingMoveDetermination
+  private val determination = new KingDeterminant
   "KingMovementDetermination" should "allows to move horizontally" in {
     implicit val baord = new Board(
       Map(

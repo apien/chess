@@ -1,13 +1,13 @@
-package com.github.chess.apien.domain
+package com.github.chess.apien.domain.determinant
 
-import com.github.chess.apien.domain.KnightMoveDetermination.CoordShift
-import com.github.chess.apien.domain.MoveDetermination.MoveType
+import com.github.chess.apien.domain.determinant.KnightDeterminant.CoordShift
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
 import com.github.chess.apien.domain.model.PieceType.Knight
 import com.github.chess.apien.domain.model.{Board, Coordinate, PieceColor}
 
-class KnightMoveDetermination extends MoveDetermination[Knight] {
-  override def validate(source: Coordinate, color: PieceColor)(implicit board: Board): Set[(Coordinate, MoveDetermination.MoveType)] = {
-    KnightMoveDetermination.possibles
+class KnightDeterminant extends MoveDeterminant[Knight] {
+  override def validate(source: Coordinate, color: PieceColor)(implicit board: Board): Set[(Coordinate, MoveDeterminant.MoveType)] = {
+    KnightDeterminant.possibles
       .map {
         case CoordShift(columnShift, rowShift) =>
           Coordinate.attempt(source.column.value + columnShift, source.row.value + rowShift)
@@ -23,7 +23,7 @@ class KnightMoveDetermination extends MoveDetermination[Knight] {
 
 }
 
-object KnightMoveDetermination {
+object KnightDeterminant {
 
   private val possibles = Set(
     CoordShift(1, -2),

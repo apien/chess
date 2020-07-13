@@ -1,8 +1,8 @@
-package com.github.apien.domain
+package com.github.apien.domain.determinant
 
 import com.github.apien.test.ChessSpec
 
-class RookMoveDeterminationSpec extends ChessSpec {
+class RookDeterminantSpec extends ChessSpec {
 
   "RookMoveDetermination" should "allow to move horizontally" in {
     ignore

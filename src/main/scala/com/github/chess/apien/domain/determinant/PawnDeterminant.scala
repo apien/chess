@@ -1,16 +1,17 @@
-package com.github.chess.apien.domain
+package com.github.chess.apien.domain.determinant
 
 import cats.syntax.option._
-import com.github.chess.apien.domain.MoveDetermination.MoveType.Captured
-import com.github.chess.apien.domain.MoveDetermination.{AvailableMove, MoveType, getMoveTrack}
+import com.github.chess.apien.domain.Diagonal
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.Captured
+import com.github.chess.apien.domain.determinant.MoveDeterminant.{AvailableMove, MoveType, getMoveTrack}
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.Pawn
 import com.github.chess.apien.domain.model.{Board, Coordinate, PieceColor, Row}
 
-class PawnMovementDetermination extends MoveDetermination[Pawn] {
+class PawnDeterminant extends MoveDeterminant[Pawn] {
   override def validate(source: Coordinate, color: PieceColor)(implicit board: Board): Set[AvailableMove] = {
     val verticalMoveLimit = if (isFirstMove(color, source)) 2 else 1
-    val moves = MoveDetermination
+    val moves = MoveDeterminant
       .vertically(source, color, verticalMoveLimit.some)
       .filter { case (cord, _) => isMovingForward(color, source, cord) }
       .filter {

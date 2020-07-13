@@ -1,8 +1,9 @@
 package com.github.chess.apien.domain
 
 import cats.syntax.either._
-import com.github.chess.apien.domain.MoveDetermination.MoveType
 import com.github.chess.apien.domain.MoveError.{EmptyField, NotYourTurn}
+import com.github.chess.apien.domain.determinant.MoveDeterminant
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
 import com.github.chess.apien.domain.model._
 
 class GameEngine {
@@ -31,7 +32,7 @@ class GameEngine {
   }
 
   def validateMove(piece: Piece, move: Move)(implicit board: Board): Either[MoveError, MoveSuccess] = {
-    MoveDetermination
+    MoveDeterminant
       .getMoves(piece.kind, move.source, piece.color, board)
       .find { case (coordinate, _) => coordinate == move.destination }
       .fold[Either[MoveError, MoveSuccess]](MoveError.IllegalMove.asLeft) {

@@ -1,22 +1,23 @@
-package com.github.chess.apien.domain
+package com.github.chess.apien.domain.determinant
 
-import com.github.chess.apien.domain.MoveDetermination.AvailableMove
+import com.github.chess.apien.domain.Diagonal
+import com.github.chess.apien.domain.determinant.MoveDeterminant.AvailableMove
 import com.github.chess.apien.domain.model.PieceType._
 import com.github.chess.apien.domain.model._
 
-trait MoveDetermination[T <: PieceType] {
+trait MoveDeterminant[T <: PieceType] {
 
   def validate(source: Coordinate, color: PieceColor)(implicit board: Board): Set[AvailableMove]
 }
 
-object MoveDetermination {
+object MoveDeterminant {
 
-  implicit val pawnMoveDetermination: MoveDetermination[Pawn] = new PawnMovementDetermination
-  implicit val knightMoveDetermination: MoveDetermination[Knight] = new KnightMoveDetermination
-  implicit val bishopMoveDetermination: MoveDetermination[Bishop] = new BishopMoveDetermination
-  implicit val rookMoveDetermination: MoveDetermination[Rook] = new RookMoveDetermination
-  implicit val queenMoveDetermination: MoveDetermination[Queen] = new QueenMoveDetermination
-  implicit val kingMoveDetermination: MoveDetermination[King] = new KingMoveDetermination
+  implicit val pawnMoveDetermination: MoveDeterminant[Pawn] = new PawnDeterminant
+  implicit val knightMoveDetermination: MoveDeterminant[Knight] = new KnightDeterminant
+  implicit val bishopMoveDetermination: MoveDeterminant[Bishop] = new BishopDeterminant
+  implicit val rookMoveDetermination: MoveDeterminant[Rook] = new RookDeterminant
+  implicit val queenMoveDetermination: MoveDeterminant[Queen] = new QueenDeterminant
+  implicit val kingMoveDetermination: MoveDeterminant[King] = new KingDeterminant
 
   def getMoves[A <: PieceType](a: A, source: Coordinate, color: PieceColor, board: Board): Set[AvailableMove] = {
     //TODO get rid of this ugly pattern matching

@@ -1,15 +1,14 @@
-package com.github.apien.domain
+package com.github.apien.domain.determinant
 
 import com.github.apien.test.ChessSpec
-import com.github.chess.apien.domain.KnightMoveDetermination
-import com.github.chess.apien.domain.MoveDetermination.MoveType
-import com.github.chess.apien.domain.MoveDetermination.MoveType.Moved
+import com.github.chess.apien.domain.determinant.KnightDeterminant
+import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType.{Captured, Moved}
 import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.{Knight, Pawn, Rook}
 import com.github.chess.apien.domain.model.{Coordinate, _}
 
-class KnightMoveDeterminationSpec extends ChessSpec {
-  private val moveDetermination = new KnightMoveDetermination()
+class KnightDeterminantSpec extends ChessSpec {
+  private val moveDetermination = new KnightDeterminant()
 
   "KnightMoveDetermination" should "determine all moves of a knight" in {
     implicit val baord = new Board(
@@ -73,9 +72,9 @@ class KnightMoveDeterminationSpec extends ChessSpec {
         Coordinate(1, 5) -> Moved,
         Coordinate(5, 5) -> Moved,
         Coordinate(2, 2) -> Moved,
-        Coordinate(2, 6) -> MoveType.Captured(Rook()),
+        Coordinate(2, 6) -> Captured(Rook()),
         Coordinate(4, 6) -> Moved,
-        Coordinate(4, 2) -> MoveType.Captured(Pawn()),
+        Coordinate(4, 2) -> Captured(Pawn()),
         Coordinate(5, 3) -> Moved
       )
     }
