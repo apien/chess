@@ -5,10 +5,10 @@ import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 case class Board(squares: Map[Coordinate, Piece]) {
 
   /**
-   * @param column
-   * @param begin Row exclusive.
-   * @param end   Row inclusive.
-   * @return
+   * @param column Demanded column.
+   * @param begin  Row exclusive.
+   * @param end    Row inclusive.
+   * @return Pieces from selected range.
    */
   def select(column: Column, begin: Row, end: Row): List[(Coordinate, Piece)] =
     squares
@@ -18,12 +18,14 @@ case class Board(squares: Map[Coordinate, Piece]) {
 }
 
 object Board {
-  lazy val initial: Map[Coordinate, Piece] = {
+  lazy val initialSquares: Map[Coordinate, Piece] = {
     initializeSecondRow(Row(0), Black) ++
       initializeFrontRow(Row(1), Black) ++
       initializeFrontRow(Row(6), White) ++
       initializeSecondRow(Row(7), White)
   }
+
+  val initial: Board = Board(initialSquares)
 
   private def initializeFrontRow(row: Row, color: PieceColor): Map[Coordinate, Piece] =
     Column.entireRow

@@ -6,20 +6,38 @@ import com.github.chess.apien.domain.determinant.MoveDeterminant
 import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
 import com.github.chess.apien.domain.model._
 
-class ChessEngine {
-  private val chessBoard = Board.initial
-  private implicit val board: Board = Board(chessBoard)
+class ChessEngine private(var board: Board) {
+  //TODO get rid of the var - maybe return State monad?
+  //  private implicit var board: Board = Board(Board.initial)
 
-  def applyMove(move: Move, color: PieceColor): Either[MoveError, MoveSuccess] = {
+  /**
+   * @return Current board state.
+   */
+  def state: Board = board
+
+  def applyMove(move: Move, color: PieceColor): Either[MoveError, MoveSuccess] =
     for {
       piece <- checkIfPineExists(move.source)
       _ <- validateColor(color, piece)
-      result <- validateMove(piece, move)
-    } yield result
+      moveResult <- validateMove(piece, move)
+      boardAfterMove = determineNewBoard(move, piece)
+      result <- moveResult match {
+        case MoveType.Capture(_) => MoveSuccess.Captured.asRight
+        case MoveType.Vacant => MoveSuccess.Moved.asRight
+      }
+    } yield {
+      board = boardAfterMove
+      result
+
+    }
+
+  private def determineNewBoard(move: Move, piece: Piece): Board = {
+    val updatedSquares = board.squares.updated(move.destination, piece).removed(move.source)
+    new Board(updatedSquares)
   }
 
   private def checkIfPineExists(coordinate: Coordinate): Either[MoveError, Piece] =
-    chessBoard
+    board.squares
       .get(coordinate)
       .toRight(EmptyField)
 
@@ -31,16 +49,17 @@ class ChessEngine {
     )
   }
 
-  def validateMove(piece: Piece, move: Move)(implicit board: Board): Either[MoveError, MoveSuccess] = {
+  def validateMove(piece: Piece, move: Move): Either[MoveError, MoveType] = {
     MoveDeterminant
       .getMoves(piece.kind, move.source, piece.color, board)
       .find { case (coordinate, _) => coordinate == move.destination }
-      .fold[Either[MoveError, MoveSuccess]](MoveError.IllegalMove.asLeft) {
-        case (_, MoveType.Vacant) => MoveSuccess.Moved.asRight
-        case (_, MoveType.Capture(_)) => MoveSuccess.Captured.asRight
-      }
+      .fold[Either[MoveError, MoveType]](MoveError.IllegalMove.asLeft) { case (_, moveType) => moveType.asRight }
   }
-
 }
 
-object ChessEngine {}
+object ChessEngine {
+
+  def initial: ChessEngine = new ChessEngine(Board.initial)
+
+  def create(board: Board): ChessEngine = new ChessEngine(board)
+}

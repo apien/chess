@@ -8,11 +8,11 @@ import com.github.chess.apien.domain.model.{Board, Coordinate, Piece, PieceColor
 class BoardSpec extends ChessSpec {
 
   "Board initial state of the board" should "contains 32 pieces at the beginning" in {
-    Board.initial should have size 32
+    Board.initialSquares should have size 32
   }
 
   it should "set up properly a initial status of the chessboard" in {
-    Board.initial shouldBe Map[Coordinate, Piece](
+    Board.initialSquares shouldBe Map[Coordinate, Piece](
       //Second row of black pieces,
       model.Coordinate(0, 0) -> blackPiece(Rook()),
       model.Coordinate(1, 0) -> blackPiece(Knight()),
