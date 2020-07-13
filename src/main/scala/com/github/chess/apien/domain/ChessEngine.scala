@@ -6,9 +6,9 @@ import com.github.chess.apien.domain.determinant.MoveDeterminant
 import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
 import com.github.chess.apien.domain.model._
 
-class GameEngine {
+class ChessEngine {
   private val chessBoard = Board.initial
-  private implicit val board = Board(chessBoard)
+  private implicit val board: Board = Board(chessBoard)
 
   def applyMove(move: Move, color: PieceColor): Either[MoveError, MoveSuccess] = {
     for {
@@ -43,4 +43,4 @@ class GameEngine {
 
 }
 
-object GameEngine {}
+object ChessEngine {}
