@@ -1,4 +1,4 @@
-package com.github.apien
+package com.github.apien.domain.determinant
 
 import cats.syntax.option._
 import com.github.apien.test.ChessSpec
