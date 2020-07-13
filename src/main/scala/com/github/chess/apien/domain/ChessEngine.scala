@@ -21,6 +21,7 @@ class ChessEngine private(var board: Board) {
       _ <- validateColor(color, piece)
       moveResult <- validateMove(piece, move)
       boardAfterMove = determineNewBoard(move, piece)
+      _ <- validateInCheck(boardAfterMove, color)
       result <- moveResult match {
         case MoveType.Capture(_) => MoveSuccess.Captured.asRight
         case MoveType.Vacant => MoveSuccess.Moved.asRight
@@ -28,12 +29,17 @@ class ChessEngine private(var board: Board) {
     } yield {
       board = boardAfterMove
       result
-
     }
 
   private def determineNewBoard(move: Move, piece: Piece): Board = {
     val updatedSquares = board.squares.updated(move.destination, piece).removed(move.source)
     new Board(updatedSquares)
+  }
+
+  private def validateInCheck(newBoard: Board, color: PieceColor): Either[MoveError, Unit] = {
+    CheckVerifier
+      .check(newBoard, color)
+      .fold[Either[MoveError, Unit]](().asRight)(_ => MoveError.KingInCheck.asLeft)
   }
 
   private def checkIfPineExists(coordinate: Coordinate): Either[MoveError, Piece] =

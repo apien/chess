@@ -10,4 +10,6 @@ object MoveError {
 
   final case object NotYourTurn extends MoveError
 
+  final case object KingInCheck extends MoveError
+
 }
