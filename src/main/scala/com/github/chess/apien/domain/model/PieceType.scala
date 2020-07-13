@@ -7,16 +7,16 @@ sealed trait PieceType
 
 object PieceType {
 
-  case class Pawn() extends PieceType
+  final case class Pawn() extends PieceType
 
-  case class Knight() extends PieceType
+  final case class Knight() extends PieceType
 
-  case class Bishop() extends PieceType
+  final case class Bishop() extends PieceType
 
-  case class Rook() extends PieceType
+  final case class Rook() extends PieceType
 
-  case class Queen() extends PieceType
+  final case class Queen() extends PieceType
 
-  case class King() extends PieceType
+  final case class King() extends PieceType
 
 }

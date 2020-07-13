@@ -1,15 +1,35 @@
 package com.github.chess.apien.domain
 
 import com.github.chess.apien.domain.MoveDetermination.AvailableMove
+import com.github.chess.apien.domain.model.PieceType._
 import com.github.chess.apien.domain.model._
 
 trait MoveDetermination[T <: PieceType] {
 
   def validate(source: Coordinate, color: PieceColor)(implicit board: Board): Set[AvailableMove]
-
 }
 
 object MoveDetermination {
+
+  implicit val pawnMoveDetermination: MoveDetermination[Pawn] = new PawnMovementDetermination
+  implicit val knightMoveDetermination: MoveDetermination[Knight] = new KnightMoveDetermination
+  implicit val bishopMoveDetermination: MoveDetermination[Bishop] = new BishopMoveDetermination
+  implicit val rookMoveDetermination: MoveDetermination[Rook] = new RookMoveDetermination
+  implicit val queenMoveDetermination: MoveDetermination[Queen] = new QueenMoveDetermination
+  implicit val kingMoveDetermination: MoveDetermination[King] = new KingMoveDetermination
+
+  def getMoves[A <: PieceType](a: A, source: Coordinate, color: PieceColor, board: Board): Set[AvailableMove] = {
+    //TODO get rid of this ugly pattern matching
+    val md = a match {
+      case Pawn() => pawnMoveDetermination
+      case Knight() => knightMoveDetermination
+      case Bishop() => bishopMoveDetermination
+      case Rook() => rookMoveDetermination
+      case Queen() => queenMoveDetermination
+      case King() => kingMoveDetermination
+    }
+    md.validate(source, color)(board)
+  }
 
   def horizontally(source: Coordinate, color: PieceColor, stepLimit: Option[Int] = None)(implicit board: Board): List[AvailableMove] = {
     val stepValidator: (Column, Column) => Boolean = stepLimit

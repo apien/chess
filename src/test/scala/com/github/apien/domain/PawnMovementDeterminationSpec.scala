@@ -8,7 +8,7 @@ import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 import com.github.chess.apien.domain.model.PieceType.Pawn
 import com.github.chess.apien.domain.model.{Board, Coordinate, Piece}
 
-class PawnMovementValidationSpec extends ChessSpec {
+class PawnMovementDeterminationSpec extends ChessSpec {
 
   private val moveDetermination = new PawnMovementDetermination()
 
