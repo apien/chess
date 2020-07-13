@@ -62,11 +62,11 @@ object MoveDetermination {
       firstOpponent.map { case (cord, piece) => cord -> MoveType.Captured(piece.kind) }
   }
 
-  def diagonally(source: Coordinate, color: PieceColor)(implicit board: Board): List[AvailableMove] = {
-    val topLeftDiagonalMoves = getMoveTrack(Diagonal.topLeft(source), color)
-    val downRightDiagonalMoves = getMoveTrack(Diagonal.downRight(source), color)
-    val topRightDiagonalMoves = getMoveTrack(Diagonal.topRight(source), color)
-    val downLeft = getMoveTrack(Diagonal.downLeft(source), color)
+  def diagonally(source: Coordinate, color: PieceColor, limit: Option[Int] = None)(implicit board: Board): List[AvailableMove] = {
+    val topLeftDiagonalMoves = getMoveTrack(Diagonal.topLeft(source, limit), color)
+    val downRightDiagonalMoves = getMoveTrack(Diagonal.downRight(source, limit), color)
+    val topRightDiagonalMoves = getMoveTrack(Diagonal.topRight(source, limit), color)
+    val downLeft = getMoveTrack(Diagonal.downLeft(source, limit), color)
 
     topLeftDiagonalMoves ++
       downRightDiagonalMoves ++

@@ -123,6 +123,22 @@ class MoveDeterminationSpec extends ChessSpec {
       )
   }
 
+  it should "restrict the given limit" in {
+    implicit val board = Board(
+      Map(
+        Coordinate(3, 4) -> Piece(Pawn(), White)
+      )
+    )
+
+    MoveDetermination.diagonally(Coordinate(3, 4), White, 1.some) shouldBe
+      List(
+        Coordinate(2, 3) -> MoveType.Moved,
+        Coordinate(4, 5) -> MoveType.Moved,
+        Coordinate(4, 3) -> MoveType.Moved,
+        Coordinate(2, 5) -> MoveType.Moved
+      )
+  }
+
   it should "restrict own pieces on the path" in {
     //TODO implement it!
     ignore
