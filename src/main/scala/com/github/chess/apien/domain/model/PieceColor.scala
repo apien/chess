@@ -4,8 +4,8 @@ sealed trait PieceColor
 
 object PieceColor {
 
-  case object White extends PieceColor
+  final case object White extends PieceColor
 
-  case object Black extends PieceColor
+  final case object Black extends PieceColor
 
 }

@@ -4,8 +4,8 @@ sealed trait MoveSuccess
 
 object MoveSuccess {
 
-  case object Moved extends MoveSuccess
+  final case object Moved extends MoveSuccess
 
-  case object Captured extends MoveSuccess
+  final case object Captured extends MoveSuccess
 
 }

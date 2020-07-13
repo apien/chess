@@ -4,10 +4,10 @@ sealed trait MoveError
 
 object MoveError {
 
-  case object IllegalMove extends MoveError
+  final case object IllegalMove extends MoveError
 
-  case object EmptyField extends MoveError
+  final case object EmptyField extends MoveError
 
-  case object NotYourTurn extends MoveError
+  final case object NotYourTurn extends MoveError
 
 }
