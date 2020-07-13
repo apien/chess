@@ -5,7 +5,6 @@ import com.github.chess.apien.domain.model.PieceColor.{Black, White}
 case class Board(squares: Map[Coordinate, Piece]) {
 
   /**
-   *
    * @param column
    * @param begin Row exclusive.
    * @param end   Row inclusive.
@@ -36,12 +35,12 @@ object Board {
     val coordinateFactory = Coordinate(_, row)
     Map(
       coordinateFactory(Column(0)) -> pieceFactory(PieceType.Rook()),
-      coordinateFactory(Column(1)) -> pieceFactory(PieceType.Knight),
+      coordinateFactory(Column(1)) -> pieceFactory(PieceType.Knight()),
       coordinateFactory(Column(2)) -> pieceFactory(PieceType.Bishop()),
       coordinateFactory(Column(3)) -> pieceFactory(PieceType.Queen()),
       coordinateFactory(Column(4)) -> pieceFactory(PieceType.King),
       coordinateFactory(Column(5)) -> pieceFactory(PieceType.Bishop()),
-      coordinateFactory(Column(6)) -> pieceFactory(PieceType.Knight),
+      coordinateFactory(Column(6)) -> pieceFactory(PieceType.Knight()),
       coordinateFactory(Column(7)) -> pieceFactory(PieceType.Rook())
     )
   }

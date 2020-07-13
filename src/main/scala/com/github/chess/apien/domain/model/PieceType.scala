@@ -9,7 +9,7 @@ object PieceType {
 
   case class Pawn() extends PieceType
 
-  case object Knight extends PieceType
+  case class Knight() extends PieceType
 
   case class Bishop() extends PieceType
 
