@@ -1,39 +1,42 @@
 package com.github.chess.apien.domain
 
 import cats.syntax.either._
+import com.github.chess.apien.domain.ChessEngine.PlayerMove
 import com.github.chess.apien.domain.MoveError.{EmptyField, NotYourTurn}
 import com.github.chess.apien.domain.determinant.MoveDeterminant
 import com.github.chess.apien.domain.determinant.MoveDeterminant.MoveType
+import com.github.chess.apien.domain.model.PieceColor.White
 import com.github.chess.apien.domain.model._
 
-class ChessEngine private(var board: Board) {
+class ChessEngine private(var board: Board, var moves: List[PlayerMove]) {
   //TODO get rid of the var - maybe return State monad?
-  //  private implicit var board: Board = Board(Board.initial)
 
   /**
    * @return Current board state.
    */
   def state: Board = board
 
-  def applyMove(move: Move, color: PieceColor): Either[MoveError, MoveSuccess] =
+  def applyMove(move: Move): Either[MoveError, MoveSuccess] =
     for {
       piece <- checkIfPineExists(move.source)
-      _ <- validateColor(color, piece)
+      _ <- validateUserTurn(piece)
       moveResult <- validateMove(piece, move)
-      boardAfterMove = determineNewBoard(move, piece)
-      _ <- validateInCheck(boardAfterMove, color)
+      (boardAfterMove, movesAfterMove) = determineNewBoard(move, piece)
+      _ <- validateInCheck(boardAfterMove, piece.color)
       result <- moveResult match {
         case MoveType.Capture(_) => MoveSuccess.Captured.asRight
         case MoveType.Vacant => MoveSuccess.Moved.asRight
       }
     } yield {
       board = boardAfterMove
+      moves = movesAfterMove
       result
     }
 
-  private def determineNewBoard(move: Move, piece: Piece): Board = {
+  private def determineNewBoard(move: Move, piece: Piece): (Board, List[PlayerMove]) = {
     val updatedSquares = board.squares.updated(move.destination, piece).removed(move.source)
-    new Board(updatedSquares)
+    val updatedMoves = moves :+ PlayerMove(piece.color, move)
+    (new Board(updatedSquares), updatedMoves)
   }
 
   private def validateInCheck(newBoard: Board, color: PieceColor): Either[MoveError, Unit] = {
@@ -47,9 +50,15 @@ class ChessEngine private(var board: Board) {
       .get(coordinate)
       .toRight(EmptyField)
 
-  private def validateColor(color: PieceColor, piece: Piece): Either[MoveError, Piece] = {
+  private def validateUserTurn(piece: Piece): Either[MoveError, Piece] = {
+    val isPlayerTurn = moves.lastOption match {
+      case None if piece.color == White => true
+      case Some(PlayerMove(lastMoveColor, _)) if lastMoveColor != piece.color => true
+      case _ => false
+    }
+
     Either.cond(
-      color == piece.color,
+      isPlayerTurn,
       piece,
       NotYourTurn
     )
@@ -65,7 +74,10 @@ class ChessEngine private(var board: Board) {
 
 object ChessEngine {
 
-  def initial: ChessEngine = new ChessEngine(Board.initial)
+  def initial: ChessEngine = new ChessEngine(Board.initial, Nil)
 
-  def create(board: Board): ChessEngine = new ChessEngine(board)
+  def create(board: Board): ChessEngine = new ChessEngine(board, Nil)
+
+  case class PlayerMove(color: PieceColor, move: Move)
+
 }
