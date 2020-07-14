@@ -8,6 +8,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "chess",
     libraryDependencies ++= Seq(
+      Dependencies.monix,
       Dependencies.cats,
       scalaTest % Test
     )
