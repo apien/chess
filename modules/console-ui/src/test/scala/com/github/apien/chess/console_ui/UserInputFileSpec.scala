@@ -16,4 +16,12 @@ class UserInputFileSpec extends flatspec.AnyFlatSpec with should.Matchers with R
     createInput("/empty.txt").nextMove() shouldBe null
   }
 
+  it should "return array even when move is not correct algebraic but contain 4 letters" in {
+    createInput("/invalid_syntax.txt").nextMove() shouldBe Array(0, -42, 2, -44)
+  }
+
+  it should "throw StringIndexOutOfBoundsException when move does not contain 4 letters" in {
+    an[StringIndexOutOfBoundsException] should be thrownBy(createInput("/not_defined.txt").nextMove())
+  }
+
 }

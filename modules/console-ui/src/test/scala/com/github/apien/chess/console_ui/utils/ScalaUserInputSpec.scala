@@ -30,4 +30,12 @@ class ScalaUserInputSpec extends flatspec.AnyFlatSpec with should.Matchers with 
     ignore
   }
 
+  it should "return None when there is not valid move" in {
+    ScalaUserInput.initialize(() => createInput("/invalid_syntax.txt")).get.nextMove() shouldBe None
+  }
+
+  it should "return None when there is not valid sa" in {
+    ScalaUserInput.initialize(() => createInput("/not_defined.txt")).get.nextMove() shouldBe None
+  }
+
 }
