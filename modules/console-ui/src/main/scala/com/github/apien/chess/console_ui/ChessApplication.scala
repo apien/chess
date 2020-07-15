@@ -31,7 +31,7 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
       filePath <- Task(movesFilePath())
       input <- Task(ScalaUserInput.initialize(() => new UserInputFile(filePath)))
       gameEngine <- Task(ChessEngine.initial)
-      in <- Task {
+      moveInputOp <- Task {
         input match {
           case Failure(exception) =>
             displayOutput(s"Please solve the following problem: ${exception.getMessage}")
@@ -40,7 +40,11 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
             Some(value)
         }
       }
-      _ <- in.fold(Task(()))(inValue => applicationLoop(gameEngine, inValue))
+      _ <- Task {
+        displayOutput("# So game begin! It is how looks like initial board!")
+        displayOutput(boardShow.show(gameEngine.state))
+      }
+      _ <- moveInputOp.fold(Task(()))(moveInputValue => applicationLoop(gameEngine, moveInputValue))
     } yield ()
 
   private def applicationLoop(engine: ChessEngine, input: ScalaUserInput): Task[Unit] =
