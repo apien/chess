@@ -8,12 +8,12 @@ import com.github.apien.chess.core.domain.determinant.MoveDeterminant.MoveType
 import com.github.apien.chess.core.domain.model.PieceColor.White
 import com.github.apien.chess.core.domain.model._
 
-class ChessEngine private(var board: Board, var moves: List[PlayerMove]) {
+class ChessEngine private (private var board: Board, private var moves: List[PlayerMove]) {
   //TODO get rid of the var - maybe return State monad?
 
   /**
-   * @return Current board state.
-   */
+    * @return Current board state.
+    */
   def state: Board = board
 
   def applyMove(move: Move): Either[MoveError, MoveSuccess] =
@@ -25,7 +25,7 @@ class ChessEngine private(var board: Board, var moves: List[PlayerMove]) {
       _ <- validateInCheck(boardAfterMove, piece.color)
       result <- moveResult match {
         case MoveType.Capture(_) => MoveSuccess.Captured.asRight
-        case MoveType.Vacant => MoveSuccess.Moved.asRight
+        case MoveType.Vacant     => MoveSuccess.Moved.asRight
       }
     } yield {
       board = boardAfterMove
@@ -52,9 +52,9 @@ class ChessEngine private(var board: Board, var moves: List[PlayerMove]) {
 
   private def validateUserTurn(piece: Piece): Either[MoveError, Piece] = {
     val isPlayerTurn = moves.lastOption match {
-      case None if piece.color == White => true
+      case None if piece.color == White                                       => true
       case Some(PlayerMove(lastMoveColor, _)) if lastMoveColor != piece.color => true
-      case _ => false
+      case _                                                                  => false
     }
 
     Either.cond(
@@ -64,7 +64,7 @@ class ChessEngine private(var board: Board, var moves: List[PlayerMove]) {
     )
   }
 
-  def validateMove(piece: Piece, move: Move): Either[MoveError, MoveType] = {
+  private def validateMove(piece: Piece, move: Move): Either[MoveError, MoveType] = {
     MoveDeterminant
       .getMoves(piece.kind, move.source, piece.color, board)
       .find { case (coordinate, _) => coordinate == move.destination }
