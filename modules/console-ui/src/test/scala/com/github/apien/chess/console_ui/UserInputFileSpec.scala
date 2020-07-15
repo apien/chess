@@ -1,7 +1,6 @@
 package com.github.apien.chess.console_ui
 
 import com.github.apien.chess.console_ui.test.ResourceSpec
-import com.whitehatgaming.{UserInput, UserInputFile}
 import org.scalatest.flatspec
 import org.scalatest.matchers.should
 
@@ -17,7 +16,4 @@ class UserInputFileSpec extends flatspec.AnyFlatSpec with should.Matchers with R
     createInput("/empty.txt").nextMove() shouldBe null
   }
 
-  private def createInput(resourceFileName: String): UserInput = {
-    new UserInputFile(getPathToResource(resourceFileName))
-  }
 }
