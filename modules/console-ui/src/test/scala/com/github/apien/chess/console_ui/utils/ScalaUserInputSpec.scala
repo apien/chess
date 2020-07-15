@@ -25,4 +25,9 @@ class ScalaUserInputSpec extends flatspec.AnyFlatSpec with should.Matchers with 
     ScalaUserInput.initialize(() => createInput(s"/${UUID.randomUUID().toString}")).isFailure shouldBe true
   }
 
+  it should "return None when exception has been thrown during fetch a move " in {
+    //TODO implement it!
+    ignore
+  }
+
 }
