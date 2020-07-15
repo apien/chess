@@ -52,15 +52,12 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
       .flatMap {
         case None => Task(displayOutput("#There is no more moves in the file!"))
         case Some(move) =>
-          val moveResult = engine.applyMove(move)
-          moveResult match {
-            case Left(value) => handleFailedMove(value, move)
-            case Right(successStatus) =>
-              for {
-                _ <- handleSuccessMove(successStatus, engine, move)
-                _ <- applicationLoop(engine, input)
-              } yield ()
-          }
+          for {
+            moveResult <- Task(engine.applyMove(move))
+            _ <- moveResult.fold(handleFailedMove(_, move), handleSuccessMove(_, engine, move))
+            _ <- applicationLoop(engine, input)
+          } yield ()
+
       }
 
   private def handleSuccessMove(moveSuccess: MoveSuccess, engine: ChessEngine, move: Move): Task[Unit] =
