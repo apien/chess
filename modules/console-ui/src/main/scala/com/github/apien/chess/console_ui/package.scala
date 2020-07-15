@@ -8,5 +8,6 @@ package object console_ui {
   implicit val rowShow = new RowShow
   implicit val colShow = new ColumnShow
   implicit val coordinateShow = new CoordinateShow
-  implicit val moveShow = new MoveShow()
+  implicit val moveShow = new MoveShow
+  implicit val colorShow = new PieceColorShow
 }

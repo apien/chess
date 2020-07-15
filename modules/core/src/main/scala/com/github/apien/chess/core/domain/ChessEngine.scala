@@ -5,7 +5,7 @@ import com.github.apien.chess.core.domain.ChessEngine.PlayerMove
 import com.github.apien.chess.core.domain.MoveError.{EmptyField, NotYourTurn}
 import com.github.apien.chess.core.domain.determinant.MoveDeterminant
 import com.github.apien.chess.core.domain.determinant.MoveDeterminant.MoveType
-import com.github.apien.chess.core.domain.model.PieceColor.White
+import com.github.apien.chess.core.domain.model.PieceColor.{Black, White}
 import com.github.apien.chess.core.domain.model._
 
 class ChessEngine private (private var board: Board, private var moves: List[PlayerMove]) {
@@ -15,6 +15,18 @@ class ChessEngine private (private var board: Board, private var moves: List[Pla
     * @return Current board state.
     */
   def state: Board = board
+
+  /**
+    * Check if white king is threaded by check.
+    * @return Move which follow to checkmate.
+    */
+  def whiteKingInCheck: Option[Move] = CheckVerifier.check(board, PieceColor.White)
+
+  /**
+    * Check if black king is threaded by check.
+    * @return Move which follow to checkmate.
+    */
+  def blackKingInCheck: Option[Move] = CheckVerifier.check(board, PieceColor.Black)
 
   def applyMove(move: Move): Either[MoveError, MoveSuccess] =
     for {
@@ -33,6 +45,15 @@ class ChessEngine private (private var board: Board, private var moves: List[Pla
       result
     }
 
+  def whichPlayerTurn: PieceColor = {
+    moves.lastOption
+      .map(_.color) match {
+      case None        => White
+      case Some(White) => Black
+      case Some(Black) => White
+    }
+  }
+
   private def determineNewBoard(move: Move, piece: Piece): (Board, List[PlayerMove]) = {
     val updatedSquares = board.squares.updated(move.destination, piece).removed(move.source)
     val updatedMoves = moves :+ PlayerMove(piece.color, move)
@@ -50,19 +71,12 @@ class ChessEngine private (private var board: Board, private var moves: List[Pla
       .get(coordinate)
       .toRight(EmptyField)
 
-  private def validateUserTurn(piece: Piece): Either[MoveError, Piece] = {
-    val isPlayerTurn = moves.lastOption match {
-      case None if piece.color == White                                       => true
-      case Some(PlayerMove(lastMoveColor, _)) if lastMoveColor != piece.color => true
-      case _                                                                  => false
-    }
-
+  private def validateUserTurn(piece: Piece): Either[MoveError, Piece] =
     Either.cond(
-      isPlayerTurn,
+      piece.color == whichPlayerTurn,
       piece,
       NotYourTurn
     )
-  }
 
   private def validateMove(piece: Piece, move: Move): Either[MoveError, MoveType] = {
     MoveDeterminant

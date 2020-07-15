@@ -1,7 +1,8 @@
 package com.github.apien.chess.console_ui
 
 import com.github.apien.chess.console_ui.utils.ScalaUserInput
-import com.github.apien.chess.core.domain.model.Move
+import com.github.apien.chess.core.domain.model.PieceColor.{Black, White}
+import com.github.apien.chess.core.domain.model.{Move, PieceColor}
 import com.github.apien.chess.core.domain.{ChessEngine, MoveError, MoveSuccess}
 import com.whitehatgaming.UserInputFile
 import monix.eval.Task
@@ -10,17 +11,18 @@ import scala.util.{Failure, Success}
 
 //TODO: display when king is int check, display which player is turn
 /**
- * Our flow of the application;
- * - take path to a file with sequence of the moves
- * - apply move to the chessboard
- * - display a chessboard after each successfully made move
- * - display info when given is invalid (a pike can not make given move, other player turn etc.). When this such situation
- * happen then ommit the invalid move and load next one.
- * Application ends when there is no more moves.
- *
- * @param movesFilePath Provide patch to the file with moves sequence.
- * @param displayOutput Allows to provide feedback for the user.
- */
+  * Our flow of the application;
+  * - take path to a file with sequence of the moves
+  * - apply move to the chessboard
+  * - display a chessboard after each successfully made move
+  * - display info when given is invalid (a pike can not make given move, other player turn etc.). When this such situation
+  * - display a message when player's king is in check
+  * happen then omit the invalid move and load next one.
+  * Application ends when there is no more moves.
+  *
+  * @param movesFilePath Provide patch to the file with moves sequence.
+  * @param displayOutput Allows to provide feedback for the user.
+  */
 class ChessApplication(movesFilePath: () => String, displayOutput: String => Unit) {
 
   def run(): Task[Unit] =
@@ -67,8 +69,23 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
       }
 
       displayOutput(statusMessage)
+      val playerTurn = engine.whichPlayerTurn
+      displayOutput(s"# Turn: ${colorShow.show(playerTurn)}")
+      checkAndDisplayCheckOfThePlayer(playerTurn, engine)
       displayOutput(boardShow.show(engine.state))
     }
+
+  private def checkAndDisplayCheckOfThePlayer(playerTurn: PieceColor, engine: ChessEngine): Unit = {
+    lazy val inCheckMsg = s"# Your king IN CHECK!"
+
+    val msg = playerTurn match {
+      case White =>
+        engine.whiteKingInCheck.map(_ => inCheckMsg)
+      case Black =>
+        engine.blackKingInCheck.map(_ => inCheckMsg)
+    }
+    msg.foreach(displayOutput)
+  }
 
   private def handleFailedMove(moveError: MoveError, move: Move): Task[Unit] =
     Task {
