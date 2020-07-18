@@ -9,7 +9,6 @@ import monix.eval.Task
 
 import scala.util.{Failure, Success}
 
-//TODO: display when king is int check, display which player is turn
 /**
   * Our flow of the application;
   * - take path to a file with sequence of the moves
