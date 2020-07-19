@@ -2,7 +2,6 @@ package com.github.apien.chess.core.domain
 
 import com.github.apien.chess.core.domain.model.Column
 import com.github.apien.chess.core.test.ChessSpec
-
 class ColumnSpec extends ChessSpec {
 
   "Column.toTheEnd" should "do not include given beginning value" in {
@@ -12,13 +11,13 @@ class ColumnSpec extends ChessSpec {
 
   it should "return Nil for boundary value" in {
     Column.toTheEnd(7) shouldBe Nil
- }
+  }
 
- "Column.fromBeginningTo" should "do not include the given last value" in {
-  Column.fromBeginningTo(7) shouldBe List(Column(0), Column(1), Column(2), Column(3), Column(4), Column(5), Column(6))
- }
+  "Column.fromBeginningTo" should "do not include the given last value" in {
+    Column.fromBeginningTo(7) shouldBe List(Column(0), Column(1), Column(2), Column(3), Column(4), Column(5), Column(6))
+  }
 
- it should "return Nil for boundary value" in {
-  Column.fromBeginningTo(0) shouldBe Nil
- }
+  it should "return Nil for boundary value" in {
+    Column.fromBeginningTo(0) shouldBe Nil
+  }
 }
