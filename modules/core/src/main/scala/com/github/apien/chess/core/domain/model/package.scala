@@ -9,6 +9,9 @@ import io.estatico.newtype.macros.newtype
 
 package object model {
 
+  type ChessBoardCoordinateCondition = GreaterEqual[W.`0`.T] And LessEqual[W.`7`.T]
+  type ChessBoardCoordinate = Int Refined ChessBoardCoordinateCondition
+
   /**
     * It represents of the row on a chessboard.
     *
@@ -16,7 +19,7 @@ package object model {
     *
     * @param value Row value.
     */
-  @newtype case class Row private (value: Int Refined (GreaterEqual[W.`0`.T] And LessEqual[W.`7`.T])) {
+  @newtype case class Row private (value: ChessBoardCoordinate) {
 
     def >(other: Row): Boolean = value > other.value
 
@@ -37,8 +40,7 @@ package object model {
 
     lazy val all: List[Row] = List(at0, at1, at2, at3, at4, at5, at6, at7)
 
-    def parse(value: Int): Either[String, Row] =
-      refineV[GreaterEqual[W.`0`.T] And LessEqual[W.`7`.T]](value).map(Row(_))
+    def parse(value: Int): Either[String, Row] = refineV[ChessBoardCoordinateCondition](value).map(Row(_))
 
     /**
       * Select all in a range (begin,7>.
@@ -67,7 +69,7 @@ package object model {
     *
     * @param value Column value.
     */
-  @newtype case class Column(value: Int Refined (GreaterEqual[W.`0`.T] And LessEqual[W.`7`.T])) {
+  @newtype case class Column(value: ChessBoardCoordinate) {
 
     def >(other: Column): Boolean = value > other.value
 
@@ -87,10 +89,9 @@ package object model {
     val at6: Column = Column(6)
     val at7: Column = Column(7)
 
-    lazy val entireRow: List[Column] = List(at0, at1, at2, at3, at4, at5, at6, at7)
+    lazy val all: List[Column] = List(at0, at1, at2, at3, at4, at5, at6, at7)
 
-    def create(value: Int): Either[String, Column] =
-      refineV[GreaterEqual[W.`0`.T] And LessEqual[W.`7`.T]](value).map(Column(_))
+    def parse(value: Int): Either[String, Column] = refineV[ChessBoardCoordinateCondition](value).map(Column(_))
 
     /**
       * Select all in a range (begin,7>.
@@ -98,7 +99,7 @@ package object model {
       * @param begin Begin value of the range (exclusive).
       * @return Determined values.
       */
-    def toTheEnd(begin: Column): List[Column] = entireRow.filter(_ > begin)
+    def toTheEnd(begin: Column): List[Column] = all.filter(_ > begin)
 
     /**
       * Select all in a range <0,end).
@@ -106,10 +107,9 @@ package object model {
       * @param end End value of the range (exclusive).
       * @return Determined values.
       */
-    def fromBeginningTo(end: Column): List[Column] = entireRow.filter(_ < end)
+    def fromBeginningTo(end: Column): List[Column] = all.filter(_ < end)
 
     def isBelongToRange(column: Column, other: Column, maxShift: Int): Boolean =
       (column.value - other.value).abs <= maxShift
   }
-
 }

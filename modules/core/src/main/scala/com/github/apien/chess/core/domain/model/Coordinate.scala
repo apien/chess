@@ -12,7 +12,7 @@ object Coordinate {
 
   def attempt(column: Int, row: Int): Option[Coordinate] = {
     for {
-      c <- Column.create(column).toOption
+      c <- Column.parse(column).toOption
       r <- Row.parse(row).toOption
     } yield Coordinate(c, r)
   }

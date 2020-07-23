@@ -21,7 +21,7 @@ class BoardShow(implicit pieceShow: Show[Piece]) extends Show[Board] {
       }
       sb ++= rowDelimiter
       sb ++= s"${row.value} "
-      for (col <- Column.entireRow) {
+      for (col <- Column.all) {
         sb ++= "| " + s"${piece(col, row)}" + " "
       }
       sb ++= "|"

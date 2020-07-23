@@ -45,7 +45,7 @@ object Diagonal {
   private def loop(
       source: Coordinate,
       acc: List[Coordinate],
-      limit: (Coordinate) => Boolean,
+      limit: Coordinate => Boolean,
       colShift: Column => Int,
       rowShift: Row => Int
   ): List[Coordinate] =

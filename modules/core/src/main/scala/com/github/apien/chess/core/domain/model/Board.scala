@@ -28,7 +28,7 @@ object Board {
   val initial: Board = Board(initialSquares)
 
   private def initializeFrontRow(row: Row, color: PieceColor): Map[Coordinate, Piece] =
-    Column.entireRow
+    Column.all
       .map(column => Coordinate(column, row) -> Piece(PieceType.Pawn(), color))
       .toMap
 
