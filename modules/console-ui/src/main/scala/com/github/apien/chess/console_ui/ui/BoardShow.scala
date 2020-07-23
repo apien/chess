@@ -16,12 +16,12 @@ class BoardShow(implicit pieceShow: Show[Piece]) extends Show[Board] {
     val sb = new StringBuilder()
     for (row <- Row.all) {
       row match {
-        case Row(0) => sb ++= s"$columnRow\n"
+        case 0 => sb ++= s"$columnRow\n"
         case _ => sb ++= "\n"
       }
       sb ++= rowDelimiter
       sb ++= s"${row.value} "
-      for (col <- Column.entireRow) {
+      for (col <- Column.all) {
         sb ++= "| " + s"${piece(col, row)}" + " "
       }
       sb ++= "|"

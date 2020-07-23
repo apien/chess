@@ -2,52 +2,66 @@ package com.github.apien.chess.core.domain
 
 import com.github.apien.chess.core.domain.model.{Column, Coordinate, Row}
 
+import scala.annotation.tailrec
 object Diagonal {
 
-  def topLeft(source: Coordinate, limit: Option[Int] = None): List[Coordinate] = {
-    for {
-      i <- 1 to 7
-      col = source.column.value - i
-      row = source.row.value - i
-      if applyStepLimit(limit, i)
-      if col >= 0
-      if row >= 0
-    } yield Coordinate(Column(col), Row(row))
-  }.toList
+  def topLeft(source: Coordinate, limit: Option[Int] = None): List[Coordinate] =
+    loop(
+      source,
+      Nil,
+      applyStepLimit(limit, source),
+      _.value.value - 1,
+      _.value.value - 1
+    )
 
-  def downRight(source: Coordinate, limit: Option[Int] = None): List[Coordinate] = {
-    for {
-      i <- 1 to 7
-      col = source.column.value + i
-      row = source.row.value + i
-      if applyStepLimit(limit, i)
-      if col <= 7
-      if row <= 7
-    } yield Coordinate(Column(col), Row(row))
-  }.toList
+  def downRight(source: Coordinate, limit: Option[Int] = None): List[Coordinate] =
+    loop(
+      source,
+      Nil,
+      applyStepLimit(limit, source),
+      _.value.value + 1,
+      _.value.value + 1
+    )
 
-  def topRight(source: Coordinate, limit: Option[Int] = None): List[Coordinate] = {
-    for {
-      i <- 1 to 7
-      col = source.column.value + i
-      row = source.row.value - i
-      if applyStepLimit(limit, i)
-      if col <= 7
-      if row >= 0
-    } yield Coordinate(Column(col), Row(row))
-  }.toList
+  def topRight(source: Coordinate, limit: Option[Int] = None): List[Coordinate] =
+    loop(
+      source,
+      Nil,
+      applyStepLimit(limit, source),
+      _.value.value + 1,
+      _.value.value - 1
+    )
 
-  def downLeft(source: Coordinate, limit: Option[Int] = None): List[Coordinate] = {
-    for {
-      i <- 1 to 7
-      col = source.column.value - i
-      row = source.row.value + i
-      if applyStepLimit(limit, i)
-      if col >= 0
-      if row <= 7
-    } yield Coordinate(Column(col), Row(row))
-  }.toList
+  def downLeft(source: Coordinate, limit: Option[Int] = None): List[Coordinate] =
+    loop(
+      source,
+      Nil,
+      applyStepLimit(limit, source),
+      _.value.value - 1,
+      _.value.value + 1
+    )
 
-  private def applyStepLimit(limitOp: Option[Int], step: Int): Boolean = limitOp.fold(true)(limitValue => step <= limitValue)
+  @tailrec
+  private def loop(
+      source: Coordinate,
+      acc: List[Coordinate],
+      limit: Coordinate => Boolean,
+      colShift: Column => Int,
+      rowShift: Row => Int
+  ): List[Coordinate] =
+    Coordinate.attempt(colShift(source.column), rowShift(source.row)) match {
+      case None                                  => acc
+      case Some(coordinate) if limit(coordinate) => loop(coordinate, acc :+ coordinate, limit, colShift, rowShift)
+      case Some(_)                               => acc
+    }
+
+  private def applyStepLimit(limitOp: Option[Int], begining: Coordinate)(other: Coordinate): Boolean =
+    limitOp.fold(true)(limitValue => civDistance(begining, other) <= limitValue)
+
+  private def civDistance(c1: Coordinate, c2: Coordinate): Int =
+    List(
+      (c1.column.value.value - c2.column.value.value).abs,
+      (c1.row.value.value - c2.row.value.value).abs
+    ).max
 
 }

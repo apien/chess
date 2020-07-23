@@ -30,6 +30,9 @@ val commonSettings = Seq(
   libraryDependencies ++= Seq(
     Dependencies.monix,
     Dependencies.cats,
+    Dependencies.newType,
+    Dependencies.refined,
+    Dependencies.refinedCats,
     scalaTest % Test
   ),
   scalacOptions ++= Seq(
@@ -71,7 +74,8 @@ val commonSettings = Seq(
     "-Ybackend-parallelism",
     "8", // Enable paralellisation — change to desired number!
     "-Ycache-plugin-class-loader:last-modified", // Enables caching of classloaders for compiler plugins
-    "-Ycache-macro-class-loader:last-modified" // and macro definitions. This can lead to performance improvements.
+    "-Ycache-macro-class-loader:last-modified", // and macro definitions. This can lead to performance improvements.
+    "-Ymacro-annotations"
   )
 )
 

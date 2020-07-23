@@ -10,7 +10,7 @@ class KnightDeterminant extends MoveDeterminant[Knight] {
     KnightDeterminant.possibles
       .map {
         case CoordShift(columnShift, rowShift) =>
-          Coordinate.attempt(source.column.value + columnShift, source.row.value + rowShift)
+          Coordinate.attempt(source.column.value.value + columnShift, source.row.value.value + rowShift)
       }
       .collect { case Some(cord) => cord }
       .map(cord => cord -> board.squares.get(cord))
