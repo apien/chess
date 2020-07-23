@@ -16,7 +16,7 @@ class PawnDeterminant extends MoveDeterminant[Pawn] {
       .filter { case (cord, _) => isMovingForward(color, source, cord) }
       .filter {
         case (_, MoveType.Capture(_)) => false //TODO A Pawn piece as the only piece can not capture other pieces in typical move
-        case _ => true
+        case _                        => true
       }
 
     val captures = color match {
@@ -26,7 +26,7 @@ class PawnDeterminant extends MoveDeterminant[Pawn] {
             getMoveTrack(Diagonal.downRight(source, 1.some), color)
         cords.filter {
           case (_, Capture(_)) => true
-          case _ => false
+          case _               => false
         }
       case White =>
         val cords = getMoveTrack(Diagonal.topLeft(source, 1.some), color) ++
@@ -34,7 +34,7 @@ class PawnDeterminant extends MoveDeterminant[Pawn] {
         cords
           .filter {
             case (_, Capture(_)) => true
-            case _ => false
+            case _               => false
           }
     }
     moves.toSet ++ captures.toSet
@@ -42,17 +42,17 @@ class PawnDeterminant extends MoveDeterminant[Pawn] {
 
   private def isFirstMove(color: PieceColor, source: Coordinate): Boolean =
     color match {
-      case Black if source.row == Row(1) => true
-      case White if source.row == Row(6) => true
-      case _ => false
+      case Black if source.row == Row.at1 => true
+      case White if source.row == Row.at6 => true
+      case _                              => false
     }
 
   private def isMovingForward(color: PieceColor, source: Coordinate, destination: Coordinate): Boolean = {
-    val dx = destination.row.value - source.row.value
+    val dx = destination.row.value.value - source.row.value.value
     color match {
       case Black if dx > 0 => true
       case White if dx < 0 => true
-      case _ => false
+      case _               => false
     }
   }
 
