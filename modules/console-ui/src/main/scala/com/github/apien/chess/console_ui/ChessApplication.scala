@@ -41,7 +41,7 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
       }
       _ <- Task {
         displayOutput("# So game begin! It is how looks like initial board!")
-        displayOutput(boardShow.show(gameEngine.state))
+        displayOutput(boardShow.show(gameEngine.board))
       }
       _ <- moveInputOp.fold(Task(()))(moveInputValue => applicationLoop(gameEngine, moveInputValue))
     } yield ()
@@ -53,8 +53,11 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
         case Some(move) =>
           for {
             moveResult <- Task(engine.applyMove(move))
-            _ <- moveResult.fold(handleFailedMove(_, move), handleSuccessMove(_, engine, move))
-            _ <- applicationLoop(engine, input)
+            freshEngine <- moveResult.fold(
+              moveError => handleFailedMove(moveError, move).map(_ => engine),
+              moveSuccess => handleSuccessMove(moveSuccess._2, moveSuccess._1, move).map(_ => moveSuccess._1)
+            )
+            _ <- applicationLoop(freshEngine, input)
           } yield ()
 
       }
@@ -72,7 +75,7 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
       val playerTurn = engine.whichPlayerTurn
       displayOutput(s"# Turn: ${colorShow.show(playerTurn)}")
       checkAndDisplayCheckOfThePlayer(playerTurn, engine)
-      displayOutput(boardShow.show(engine.state))
+      displayOutput(boardShow.show(engine.board))
     }
 
   private def checkAndDisplayCheckOfThePlayer(playerTurn: PieceColor, engine: ChessEngine): Unit = {

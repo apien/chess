@@ -1,20 +1,19 @@
 package com.github.apien.chess.core.domain
 
 import cats.syntax.either._
-import com.github.apien.chess.core.domain.ChessEngine.PlayerMove
+import com.github.apien.chess.core.domain.ChessEngine.{MoveDone, PlayerMove}
 import com.github.apien.chess.core.domain.MoveError.{EmptyField, NotYourTurn}
 import com.github.apien.chess.core.domain.determinant.MoveDeterminant
 import com.github.apien.chess.core.domain.determinant.MoveDeterminant.MoveType
 import com.github.apien.chess.core.domain.model.PieceColor.{Black, White}
 import com.github.apien.chess.core.domain.model._
 
-class ChessEngine private (private var board: Board, private var moves: List[PlayerMove]) {
-  //TODO get rid of the var - maybe return State monad?
-
-  /**
-    * @return Current board state.
-    */
-  def state: Board = board
+/**
+  * Glue together whole logic responsible for the game.
+  * @param board Current board.
+  * @param moves All moves has been made until now.
+  */
+class ChessEngine private (val board: Board, moves: List[PlayerMove]) {
 
   /**
     * Check if white king is threaded by check.
@@ -28,22 +27,18 @@ class ChessEngine private (private var board: Board, private var moves: List[Pla
     */
   def blackKingInCheck: Option[Move] = CheckVerifier.check(board, PieceColor.Black)
 
-  def applyMove(move: Move): Either[MoveError, MoveSuccess] =
+  def applyMove(move: Move): Either[MoveError, MoveDone] =
     for {
       piece <- checkIfPineExists(move.source)
       _ <- validateUserTurn(piece)
       moveResult <- validateMove(piece, move)
-      (boardAfterMove, movesAfterMove) = determineNewBoard(move, piece)
-      _ <- validateInCheck(boardAfterMove, piece.color)
+      newEngine = determineNewState(move, piece)
+      _ <- validateInCheck(newEngine.board, piece.color)
       result <- moveResult match {
-        case MoveType.Capture(_) => MoveSuccess.Captured.asRight
-        case MoveType.Vacant     => MoveSuccess.Moved.asRight
+        case MoveType.Capture(_) => (newEngine, MoveSuccess.Captured).asRight
+        case MoveType.Vacant     => (newEngine, MoveSuccess.Moved).asRight
       }
-    } yield {
-      board = boardAfterMove
-      moves = movesAfterMove
-      result
-    }
+    } yield result
 
   def whichPlayerTurn: PieceColor = {
     moves.lastOption
@@ -54,10 +49,10 @@ class ChessEngine private (private var board: Board, private var moves: List[Pla
     }
   }
 
-  private def determineNewBoard(move: Move, piece: Piece): (Board, List[PlayerMove]) = {
+  private def determineNewState(move: Move, piece: Piece): ChessEngine = {
     val updatedSquares = board.squares.updated(move.destination, piece).removed(move.source)
     val updatedMoves = moves :+ PlayerMove(piece.color, move)
-    (new Board(updatedSquares), updatedMoves)
+    new ChessEngine(Board(updatedSquares), updatedMoves)
   }
 
   private def validateInCheck(newBoard: Board, color: PieceColor): Either[MoveError, Unit] = {
@@ -93,5 +88,10 @@ object ChessEngine {
   def create(board: Board): ChessEngine = new ChessEngine(board, Nil)
 
   case class PlayerMove(color: PieceColor, move: Move)
+
+  /**
+    * Alias for successfully made move. It contains a type of made move and new state of a game engine.
+    */
+  type MoveDone = (ChessEngine, MoveSuccess)
 
 }
