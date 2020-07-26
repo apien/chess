@@ -1,5 +1,6 @@
 package com.github.apien.chess.console_ui
 
+import cats.syntax.show._
 import com.github.apien.chess.console_ui.utils.ScalaUserInput
 import com.github.apien.chess.core.domain.model.PieceColor.{Black, White}
 import com.github.apien.chess.core.domain.model.{Move, PieceColor}
@@ -41,7 +42,7 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
       }
       _ <- Task {
         displayOutput("# So game begin! It is how looks like initial board!")
-        displayOutput(boardShow.show(gameEngine.board))
+        displayOutput(gameEngine.board.show)
       }
       _ <- moveInputOp.fold(Task(()))(moveInputValue => applicationLoop(gameEngine, moveInputValue))
     } yield ()
@@ -66,16 +67,16 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
     Task {
       val statusMessage = moveSuccess match {
         case MoveSuccess.Moved =>
-          s"# Moved a piece successfully! ${moveShow.show(move)}."
+          s"# Moved a piece successfully! ${move.show}."
         case MoveSuccess.Captured =>
-          s"# Captured an enemy piece! Well done! ${moveShow.show(move)}"
+          s"# Captured an enemy piece! Well done! ${move.show}"
       }
 
       displayOutput(statusMessage)
       val playerTurn = engine.whichPlayerTurn
-      displayOutput(s"# Turn: ${colorShow.show(playerTurn)}")
+      displayOutput(s"# Turn: ${playerTurn.show}")
       checkAndDisplayCheckOfThePlayer(playerTurn, engine)
-      displayOutput(boardShow.show(engine.board))
+      displayOutput(engine.board.show)
     }
 
   private def checkAndDisplayCheckOfThePlayer(playerTurn: PieceColor, engine: ChessEngine): Unit = {
@@ -95,15 +96,15 @@ class ChessApplication(movesFilePath: () => String, displayOutput: String => Uni
       val msg = moveError match {
         case MoveError.IllegalMove =>
           s"""
-             |Yikes! Selected pine can not go ${moveShow.show(move)}}
+             |Yikes! Selected pine can not go ${move.show}}
              |It is is illegal for this kind of a pine.
              |""".stripMargin
         case MoveError.EmptyField =>
-          s"Yikes! Selected square does not contain a piece ${moveShow.show(move)}!"
+          s"Yikes! Selected square does not contain a piece ${move.show}!"
         case MoveError.NotYourTurn =>
-          s"Yikes! It is not your turn! Please select a pine of other color! ${moveShow.show(move)} "
+          s"Yikes! It is not your turn! Please select a pine of other color! ${move.show} "
         case MoveError.KingInCheck =>
-          s"Yikes! You can not make this move because it put your king in check! ${moveShow.show(move)}"
+          s"Yikes! You can not make this move because it put your king in check! ${move.show}"
       }
       displayOutput(msg)
     }
