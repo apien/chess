@@ -28,7 +28,7 @@ val commonSettings = Seq(
   organization := "com.github.apien",
   version := "0.1.0-SNAPSHOT",
   libraryDependencies ++= Seq(
-    Dependencies.monix,
+    Dependencies.monixBio,
     Dependencies.cats,
     Dependencies.newType,
     Dependencies.refined,

@@ -3,7 +3,7 @@ import sbt._
 object Dependencies {
   lazy val cats = "org.typelevel" %% "cats-core" % VersionOf.cats
   lazy val scalaTest = "org.scalatest" %% "scalatest" % VersionOf.scalaTest
-  lazy val monix = "io.monix" %% "monix" % VersionOf.monix
+  lazy val monixBio = "io.monix" %% "monix-bio" % VersionOf.monixBio
   lazy val newType = "io.estatico" %% "newtype" % VersionOf.newType
 
   lazy val refined = "eu.timepit" %% "refined" % VersionOf.refinedVersion

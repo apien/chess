@@ -1,12 +1,12 @@
 package com.github.apien.chess.console_ui
 
 import cats.effect.ExitCode
-import monix.eval.{Task, TaskApp}
+import monix.bio.{BIOApp, Task, UIO}
 
-object Main extends TaskApp {
-  override def run(args: List[String]): Task[ExitCode] =
-    for {
+object Main extends BIOApp {
+  override def run(args: List[String]): UIO[ExitCode] =
+    (for {
       chessApplication <- Task(ChessApplication.consoleApplication)
       _ <- chessApplication.run()
-    } yield ExitCode.Success
+    } yield ExitCode.Success).hideErrors
 }

@@ -6,7 +6,7 @@ import com.github.apien.chess.core.domain.model.PieceColor.{Black, White}
 import com.github.apien.chess.core.domain.model.{Move, PieceColor}
 import com.github.apien.chess.core.domain.{ChessEngine, MoveError, MoveSuccess}
 import com.whitehatgaming.UserInputFile
-import monix.eval.Task
+import monix.bio.Task
 
 import scala.util.{Failure, Success}
 
