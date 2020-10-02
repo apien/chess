@@ -14,7 +14,7 @@ class ScalaUserInputSpec extends flatspec.AnyFlatSpec with should.Matchers with 
   "ScalaUserInput" should "properly map bess coordinates to board coordinates " in {
     val input = ScalaUserInput.initialize(() => createInput("/sample.txt")).get
 
-    input.nextMove shouldBe Move(Coordinate(4, 6), Coordinate(4, 4)).some
+    input.nextMove() shouldBe Move(Coordinate(4, 6), Coordinate(4, 4)).some
   }
 
   it should "return null where there is no more move" in {
