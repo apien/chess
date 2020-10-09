@@ -37,3 +37,6 @@ TODO:
 - User property tests to test moves of the pines
 - Write missing tests i.e: for main application loop ChessApplication
 - Write it in Scala 3/Dotty :) - The project in current state does not require too much external libraries, so it is good place to check it out!
+
+
+1
